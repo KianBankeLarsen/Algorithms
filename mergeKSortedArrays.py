@@ -1,9 +1,9 @@
 import math
 
-# Algorithm: Merge k sorted arrays of n digits.
-# Overall Time Complexity: O(n * k * log k)
-# Space Complexity: if output is not stored O(k), else O(k * n)
-# Author: https://www.linkedin.com/in/kilar
+# Algorithm: Merge k sorted arrays of n numbers.
+# Overall Time Complexity: O(nk * log k).
+# Space Complexity: O(n * k).
+# Author: https://www.linkedin.com/in/kilar.
 
 class HeapNode:
 
@@ -13,13 +13,12 @@ class HeapNode:
         self.valueIndex = valueIndex
 
 
-def initMinHeap(A, heapSize, l = []):
+def initMinHeap(A, heapSize):
     for i in range(len(A)):
-        l.append(HeapNode(A[i][0], i, 0))
+        nodeObj = HeapNode(A[i][0], i, 0)
+        A[i][0] = nodeObj
 
-    buildMinHeap(l, heapSize)
-
-    return l
+    buildMinHeap(A, heapSize)
 
 
 def buildMinHeap(A, heapSize):
@@ -31,11 +30,11 @@ def minHeapify(A, i, heapSize):
     l = 2 * i + 1
     r = 2 * i + 2
 
-    if l <= heapSize and A[l].value < A[i].value:
+    if l <= heapSize and A[l][0].value < A[i][0].value:
         smallest = l
     else:
         smallest = i
-    if r <= heapSize and A[r].value < A[smallest].value:
+    if r <= heapSize and A[r][0].value < A[smallest][0].value:
         smallest = r 
     if smallest != i:
         swap(A, i, smallest)
@@ -43,19 +42,20 @@ def minHeapify(A, i, heapSize):
 
 
 def swap(A, n, m):
+    A[m][0].listIndex, A[n][0].listIndex = A[n][0].listIndex, A[m][0].listIndex 
     A[m], A[n] = A[n], A[m]
 
 
-def extractMin(A, orgA, heapSize):
-    minNode = A[0]
+def extractMin(A, heapSize):
+    minNode = A[0][0]
     min = minNode.value
 
-    if minNode.valueIndex < len(orgA[minNode.listIndex]) - 1:
+    if minNode.valueIndex < len(A[minNode.listIndex]) - 1:
         minNode.valueIndex += 1
-        minNode.value = orgA[minNode.listIndex][minNode.valueIndex]
+        minNode.value = A[minNode.listIndex][minNode.valueIndex]
         minHeapify(A, 0, heapSize)
     else:
-        A[0].value = math.inf
+        minNode.value = math.inf
         swap(A, 0, heapSize)
         minHeapify(A, 0, heapSize)
         heapSize -= 1
@@ -65,21 +65,21 @@ def extractMin(A, orgA, heapSize):
 
 def main(A, res = []):
     heapSize = len(A) - 1
-    l = initMinHeap(A, heapSize)
+    initMinHeap(A, heapSize)
 
     while (heapSize >= 0):
-        min, heapSize = extractMin(l, A, heapSize)
+        min, heapSize = extractMin(A, heapSize)
         res.append(min)
 
     return res
 
-
+# Demonstration of I/O
 A = [[2, 4, 7, 9, 14],
     [16, 34, 67, 70],
     [700, 800, 850, 2322],
     [100, 123, 234, 678], 
     [124, 432, 765, 7544, 34345],
     [1, 2, 3, 222, 223, 543],
-    [1, 11, 22, 44, 87, 111, 1111]]
+    [0.5, 1, 2.5, 11, 22, 44, 87, 111, 849, 1111]]
 
 print(main(A))

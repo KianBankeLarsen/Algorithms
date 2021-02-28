@@ -16,7 +16,7 @@ A107    ;Rotate bits in register 1 cyclically right 7 steps               ROTATE
 A201    ;Rotate bits in register 2 cyclically right 1 steps               ROTATE MULTIPLIER 1 TO THE RIGHT;
 8115    ;Bitwise AND bits in registers 1 and 5, put in register 1         THROWS DUPLICATED BIT AFTER ROT;
 5F3F    ;Add bits in registers 3 and F (two's-complement), put in F       COUNT OF ROTATION;
-2008    ;Copy bit-string 08 to register 0                                 PUTS 8 IN REGISTER F;
+2008    ;Copy bit-string 08 to register 0                                 PUTS 8 IN REGISTER 0;
 BF22    ;Jump to cell 2C if register F equals register 0                  IF ROTATED 8 TIMES CALL STOPCODE;
 8023    ;Bitwise AND bits in registers 2 and 3, put in register 0         CHECKS LEAST SIGNIFICANT BIT;
 B30E    ;Jump to cell 0C if register 3 equals register 0                  IF ROTATED 8 TIMES CALL STOPCODE;
