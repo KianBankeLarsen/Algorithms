@@ -1,6 +1,6 @@
 # Algorithm: Count inversions in an array.
 # Overall Time Complexity: O(n log n).
-# Space Complexity: O(n log n).
+# Space Complexity: O(n).
 # Author: https://www.linkedin.com/in/kilar.
 
 def invCount(arr, inv = 0):
