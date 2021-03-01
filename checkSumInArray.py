@@ -8,7 +8,7 @@ def sumInList(arr, key, k = 0):
 
     for i in range(arrLength):
         if arr[k] + arr[i] == key:
-            return True, "{} + {} = key".format(arr[k], arr[i])
+            return True, f"{arr[k]} + {arr[i]} = key -> key = {key}"
 
         elif i < arrLength - 1:
             if arr[k + 1] + arr[i + 1] > key:
@@ -16,4 +16,4 @@ def sumInList(arr, key, k = 0):
             else: 
                 k += 1
 
-    return False, "No pair sums to key"
+    return False, f"No pair sums to key: {key}"
