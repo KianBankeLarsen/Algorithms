@@ -8,7 +8,7 @@
 int *binary_search(int value, const int *arr, size_t length) {
     int l = 0, r = length, m = (l + r) / 2;
 
-    if(r == 0){
+    if(r == 0) {
         return NULL;
     }
 
