@@ -13,15 +13,11 @@ class HeapNode:
         self.valueIndex = valueIndex
 
 
-def initMinHeap(A, heapSize):
+def buildMinHeap(A, heapSize):
     for i in range(len(A)):
         nodeObj = HeapNode(A[i][0], i, 0)
         A[i][0] = nodeObj
 
-    buildMinHeap(A, heapSize)
-
-
-def buildMinHeap(A, heapSize):
     for i in range((heapSize - 1) // 2, -1, -1):
         minHeapify(A, i, heapSize)
 
@@ -65,7 +61,7 @@ def extractMin(A, heapSize):
 
 def main(A, res = []):
     heapSize = len(A) - 1
-    initMinHeap(A, heapSize)
+    buildMinHeap(A, heapSize)
 
     while (heapSize >= 0):
         min, heapSize = extractMin(A, heapSize)
