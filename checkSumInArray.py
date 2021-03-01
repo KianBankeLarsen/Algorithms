@@ -1,6 +1,6 @@
 # Algorithm: Check if a pair in a given sorted array, evaluates to a certain sum when added.
 # Overall Time Complexity: O(n).
-# Space Complexity: O(n).
+# Space Complexity: O(1).
 # Author: https://www.linkedin.com/in/kilar.
 
 def sumInList(arr, key, k = 0):
