@@ -2,7 +2,7 @@ import math
 
 # Algorithm: Merge k sorted arrays of n numbers.
 # Overall Time Complexity: O(nk * log k).
-# Space Complexity: O(1).
+# Space Complexity: O(n * k).
 # Author: https://www.linkedin.com/in/kilar.
 
 class HeapNode:
