@@ -1,3 +1,8 @@
+// Algorithm: Using concurrency to solve tasks related to text files.
+// Overall Time Complexity: O(n).
+// Space Complexity: O(n).
+// Author: https://www.linkedin.com/in/kilar.
+
 // Default Exam.java packages
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -40,74 +45,74 @@ You can find a complete explanation of the exam rules at the following webpage.
 https://github.com/fmontesi/cp2021/tree/master/exam
 */
 public class Exam {
-	// Do not change this method
-	public static void main(String[] args) {
-		checkArguments(args.length > 0,
-				"You must choose a command: help, findUniqueWords, findCommonWords, or wordLongerThan.");
-		switch (args[0]) {
-			case "help":
-				System.out.println(
-						"Available commands: help, findUniqueWords, findCommonWords, or wordLongerThan.\nFor example, try:\n\tjava Exam findUniqueWords data");
-				break;
-			case "findUniqueWords":
-				checkArguments(args.length == 2, "Usage: java Exam.java findUniqueWords <directory>");
-				List<LocatedWord> uniqueWords = findUniqueWords(Paths.get(args[1]));
-				System.out.println("Found " + uniqueWords.size() + " unique words");
-				uniqueWords.forEach(locatedWord -> System.out.println(locatedWord.word + ":" + locatedWord.filepath));
-				break;
-			case "findCommonWords":
-				checkArguments(args.length == 2, "Usage: java Exam.java findCommonWords <directory>");
-				List<String> commonWords = findCommonWords(Paths.get(args[1]));
-				System.out.println("Found " + commonWords.size() + " words in common");
-				commonWords.forEach(System.out::println);
-				break;
-			case "wordLongerThan":
-				checkArguments(args.length == 3, "Usage: java Exam.java wordLongerThan <directory> <length>");
-				int length = Integer.parseInt(args[2]);
-				Optional<LocatedWord> longerWordOptional = wordLongerThan(Paths.get(args[1]), length);
-				longerWordOptional.ifPresentOrElse(
-						locatedWord -> System.out.println("Found " + locatedWord.word + " in " + locatedWord.filepath),
-						() -> System.out.println("No word found longer than " + args[2]));
-				break;
-			default:
-				System.out.println("Unrecognised command: " + args[0] + ". Try java Exam.java help.");
-				break;
-		}
-	}
+    // Do not change this method
+    public static void main(String[] args) {
+        checkArguments(args.length > 0,
+            "You must choose a command: help, findUniqueWords, findCommonWords, or wordLongerThan.");
+        switch (args[0]) {
+        case "help":
+            System.out.println(
+                "Available commands: help, findUniqueWords, findCommonWords, or wordLongerThan.\nFor example, try:\n\tjava Exam findUniqueWords data");
+            break;
+        case "findUniqueWords":
+            checkArguments(args.length == 2, "Usage: java Exam.java findUniqueWords <directory>");
+            List < LocatedWord > uniqueWords = findUniqueWords(Paths.get(args[1]));
+            System.out.println("Found " + uniqueWords.size() + " unique words");
+            uniqueWords.forEach(locatedWord -> System.out.println(locatedWord.word + ":" + locatedWord.filepath));
+            break;
+        case "findCommonWords":
+            checkArguments(args.length == 2, "Usage: java Exam.java findCommonWords <directory>");
+            List < String > commonWords = findCommonWords(Paths.get(args[1]));
+            System.out.println("Found " + commonWords.size() + " words in common");
+            commonWords.forEach(System.out::println);
+            break;
+        case "wordLongerThan":
+            checkArguments(args.length == 3, "Usage: java Exam.java wordLongerThan <directory> <length>");
+            int length = Integer.parseInt(args[2]);
+            Optional < LocatedWord > longerWordOptional = wordLongerThan(Paths.get(args[1]), length);
+            longerWordOptional.ifPresentOrElse(
+                locatedWord -> System.out.println("Found " + locatedWord.word + " in " + locatedWord.filepath),
+                () -> System.out.println("No word found longer than " + args[2]));
+            break;
+        default:
+            System.out.println("Unrecognised command: " + args[0] + ". Try java Exam.java help.");
+            break;
+        }
+    }
 
-	// Do not change this method
-	private static void checkArguments(Boolean check, String message) {
-		if (!check) {
-			throw new IllegalArgumentException(message);
-		}
-	}
+    // Do not change this method
+    private static void checkArguments(Boolean check, String message) {
+        if (!check) {
+            throw new IllegalArgumentException(message);
+        }
+    }
 
-	/**
-	 * Returns all the words that appear in at most one file among all the text
-	 * files contained in the given directory.
-	 *
-	 * This method recursively visits a directory to find text files contained in it
-	 * and its subdirectories (and the subdirectories of these subdirectories,
-	 * etc.).
-	 *
-	 * You must consider only files ending with a ".txt" suffix. You are guaranteed
-	 * that they will be text files.
-	 *
-	 * The method should return a list of LocatedWord objects (defined by the class
-	 * at the end of this file). Each LocatedWord object should consist of: - a word
-	 * that appears in exactly one file (that is, the word must appear in at least
-	 * one file, but not more than one); - the path to the file containing the word.
-	 *
-	 * All unique words must appear in the list: words that can be in the list must
-	 * be in the list.
-	 * 
-	 * Words must be considered equal without considering differences between
-	 * uppercase and lowercase letters. For example, the words "Hello", "hEllo" and
-	 * "HELLo" must be considered equal to the word "hello".
-	 *
-	 * @param dir the directory to search
-	 * @return a list of words unique to a single file
-	 */
+    /**
+     * Returns all the words that appear in at most one file among all the text
+     * files contained in the given directory.
+     *
+     * This method recursively visits a directory to find text files contained in it
+     * and its subdirectories (and the subdirectories of these subdirectories,
+     * etc.).
+     *
+     * You must consider only files ending with a ".txt" suffix. You are guaranteed
+     * that they will be text files.
+     *
+     * The method should return a list of LocatedWord objects (defined by the class
+     * at the end of this file). Each LocatedWord object should consist of: - a word
+     * that appears in exactly one file (that is, the word must appear in at least
+     * one file, but not more than one); - the path to the file containing the word.
+     *
+     * All unique words must appear in the list: words that can be in the list must
+     * be in the list.
+     * 
+     * Words must be considered equal without considering differences between
+     * uppercase and lowercase letters. For example, the words "Hello", "hEllo" and
+     * "HELLo" must be considered equal to the word "hello".
+     *
+     * @param dir the directory to search
+     * @return a list of words unique to a single file
+     */
 
     //################################ START OF SOLUTION ###############################//
 
@@ -130,87 +135,87 @@ public class Exam {
      * empty into a list. 
      */
 
-	private static List<LocatedWord> findUniqueWords( Path dir ) {
-        Map< String, Optional< LocatedWord > > uniqueWords = null;
+    private static List < LocatedWord > findUniqueWords(Path dir) {
+        Map < String, Optional < LocatedWord > > uniqueWords = null;
 
         // Collects a map containing Locatedword as values for distinct words, 
         // else Optional.empty.
         try {
-			uniqueWords = Files
-                .walk( dir )
-				.filter( Files::isRegularFile )
-                .filter( txtFilePath -> txtFilePath.toString().endsWith( ".txt" ) )
-				.collect( Collectors.toList() )
+            uniqueWords = Files
+                .walk(dir)
+                .filter(Files::isRegularFile)
+                .filter(txtFilePath -> txtFilePath.toString().endsWith(".txt"))
+                .collect(Collectors.toList())
                 // Creates a parallel stream pipeline.
-				.parallelStream()
-                .flatMap( txtFilePath -> {
+                .parallelStream()
+                .flatMap(txtFilePath -> {
                     try {
                         return Files
-                            .lines( txtFilePath )
-                            .flatMap( Exam::extractWords )
+                            .lines(txtFilePath)
+                            .flatMap(Exam::extractWords)
                             // All words are mapped to lowercase to ensure Hello and 
                             //  heLLo isn't different words.
-                            .map( String::toLowerCase )
+                            .map(String::toLowerCase)
                             // Not globally distinct, only for the file being computed 
                             //  - sequential context.
                             // Distinct makes sure that recurring words within one file 
                             //  doesn't change whether a word is perceived as unique across 
                             //  files, since doublicates of words in one file otherwise will 
                             //  force the following map to merge.
-                            .distinct() 
-                            .map( txtWord -> new LocatedWord( txtWord, txtFilePath ) );
+                            .distinct()
+                            .map(txtWord -> new LocatedWord(txtWord, txtFilePath));
                     } catch (IOException e) {
                         return Stream.empty();
                     }
-                } )
+                })
                 // Map to distinguish duplicates from unique words.
                 // ConcurrentMap is used because the official Java 11 Collectors documentation 
                 //  recomonds it for parallel stream pipelines, since it is expensive to merge 
                 //  the individually supplied hashMaps.
-                .collect( Collectors.toConcurrentMap(
+                .collect(Collectors.toConcurrentMap(
                     locatedWord -> locatedWord.word,
-                    locatedWord -> Optional.of( locatedWord ),
-                    ( v1, v2 ) -> Optional.empty()
-                ) );
-		} catch( IOException e ) {
+                    locatedWord -> Optional.of(locatedWord),
+                    (v1, v2) -> Optional.empty()
+                ));
+        } catch (IOException e) {
             // Empty hashMap if error is thrown.
-            uniqueWords = new HashMap<>();
-			e.printStackTrace();
-		}
+            uniqueWords = new HashMap < > ();
+            e.printStackTrace();
+        }
         // Returns a list of LocatedWords after filtering out the Optional.empty values.
         return uniqueWords
             .values()
             .parallelStream()
             .collect(
-                () -> new ArrayList<LocatedWord>(), 
-                ( acc, wordOpt ) -> wordOpt.ifPresent( val -> acc.add( val ) ), 
+                () -> new ArrayList < LocatedWord > (),
+                (acc, wordOpt) -> wordOpt.ifPresent(val -> acc.add(val)),
                 ArrayList::addAll
             );
-	}
+    }
 
     //############################## END OF SOLUTION ##################################//
 
-	/**
-	 * Returns the words that appear at least once in every text file contained in
-	 * the given directory.
-	 *
-	 * This method recursively visits a directory to find text files contained in it
-	 * and its subdirectories (and the subdirectories of these subdirectories,
-	 * etc.).
-	 *
-	 * You must consider only files ending with a ".txt" suffix. You are guaranteed
-	 * that they will be text files.
-	 *
-	 * The method should return a list of words, where each word appears at least once in
-	 * every file contained in the given directory.
-	 *
-	 * Words must be considered equal without considering differences between
-	 * uppercase and lowercase letters. For example, the words "Hello", "hEllo" and
-	 * "HELLo" must be considered equal to the word "hello".
-	 *
-	 * @param dir the directory to search
-	 * @return a list of words common to all the files
-	 */
+    /**
+     * Returns the words that appear at least once in every text file contained in
+     * the given directory.
+     *
+     * This method recursively visits a directory to find text files contained in it
+     * and its subdirectories (and the subdirectories of these subdirectories,
+     * etc.).
+     *
+     * You must consider only files ending with a ".txt" suffix. You are guaranteed
+     * that they will be text files.
+     *
+     * The method should return a list of words, where each word appears at least once in
+     * every file contained in the given directory.
+     *
+     * Words must be considered equal without considering differences between
+     * uppercase and lowercase letters. For example, the words "Hello", "hEllo" and
+     * "HELLo" must be considered equal to the word "hello".
+     *
+     * @param dir the directory to search
+     * @return a list of words common to all the files
+     */
 
     //################################ START OF SOLUTION ###############################//
 
@@ -234,81 +239,81 @@ public class Exam {
      * correctly, by checking whether commonWords is still null -- if the stream is empty.
      */
 
-	private static List<String> findCommonWords( Path dir ) {
-        Set< String > commonWords = null;
+    private static List < String > findCommonWords(Path dir) {
+        Set < String > commonWords = null;
 
         // Streamline producing a set containing the common words across all files.
         try {
-			commonWords = Files
-				.walk( dir )
-				.filter( Files::isRegularFile )
-                .filter( txtFilePath -> txtFilePath.toString().endsWith( ".txt" ) )
-				.collect( Collectors.toList() )
+            commonWords = Files
+                .walk(dir)
+                .filter(Files::isRegularFile)
+                .filter(txtFilePath -> txtFilePath.toString().endsWith(".txt"))
+                .collect(Collectors.toList())
                 // Creates a parallel stream pipeline.
-				.parallelStream()
+                .parallelStream()
                 // Produces a set of words for every file.
-                .map( txtFilePath -> {
+                .map(txtFilePath -> {
                     try {
                         return Files
-                            .lines( txtFilePath )
-                            .flatMap( Exam::extractWords )
-                            .map( String::toLowerCase )
-                            .collect( Collectors.toSet() );
-                    } catch ( IOException e ) {
-                        return new HashSet< String >();
+                            .lines(txtFilePath)
+                            .flatMap(Exam::extractWords)
+                            .map(String::toLowerCase)
+                            .collect(Collectors.toSet());
+                    } catch (IOException e) {
+                        return new HashSet < String > ();
                     }
-                } )
+                })
                 // Intersects every set to determine common words - words that occurs 
                 //  in every set.
                 // No combiner is required since the types aren't switched, meaning
                 //  the accumulator is used for both accumulating and combining.
-                .reduce( null, ( subSet, streamSet ) -> {
-                    if ( subSet == null )
-                        subSet = new HashSet<String>( streamSet );
+                .reduce(null, (subSet, streamSet) -> {
+                    if (subSet == null)
+                        subSet = new HashSet < String > (streamSet);
                     else
-                        subSet.retainAll( streamSet );
+                        subSet.retainAll(streamSet);
                     return subSet;
-                } );
-		} catch( IOException e ) {
-			e.printStackTrace();
-		}
+                });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         // Returns a List with the content of the computed set 'commonWords'.
-        return new ArrayList< String >( 
-            commonWords != null ? commonWords : new HashSet<>() 
+        return new ArrayList < String > (
+            commonWords != null ? commonWords : new HashSet < > ()
         );
-	}
+    }
 
     //############################## END OF SOLUTION ##################################//
 
-	/**
-	 * Returns an Optional<LocatedWord> (see below) about a word found in the files
-	 * of the given directory whose length is greater than the given length.
-	 *
-	 * This method recursively visits a directory to find text files contained in it
-	 * and its subdirectories (and the subdirectories of these subdirectories,
-	 * etc.).
-	 *
-	 * You must consider only files ending with a ".txt" suffix. You are guaranteed
-	 * that they will be text files.
-	 *
-	 * The method should return an (optional) LocatedWord object (defined by the
-	 * class at the end of this file), consisting of:
-	 * - the word found that is longer than the given length;
-	 * - the path to the file containing the word.
-	 *
-	 * If a word satisfying the description above can be found, then the method
-	 * should return an Optional containing the desired LocatedWord. Otherwise, if
-	 * such a word cannot be found, the method should return Optional.empty().
-	 *
-	 * This method should return *as soon as possible*: as soon as a satisfactory
-	 * word is found, the method should return a result without waiting for the
-	 * processing of remaining files and/or other data.
-	 *
-	 * @param dir    the directory to search
-	 * @param length the length the word searched for must exceed
-	 * @return an optional LocatedWord about a word longer than the given length
-	 */
+    /**
+     * Returns an Optional<LocatedWord> (see below) about a word found in the files
+     * of the given directory whose length is greater than the given length.
+     *
+     * This method recursively visits a directory to find text files contained in it
+     * and its subdirectories (and the subdirectories of these subdirectories,
+     * etc.).
+     *
+     * You must consider only files ending with a ".txt" suffix. You are guaranteed
+     * that they will be text files.
+     *
+     * The method should return an (optional) LocatedWord object (defined by the
+     * class at the end of this file), consisting of:
+     * - the word found that is longer than the given length;
+     * - the path to the file containing the word.
+     *
+     * If a word satisfying the description above can be found, then the method
+     * should return an Optional containing the desired LocatedWord. Otherwise, if
+     * such a word cannot be found, the method should return Optional.empty().
+     *
+     * This method should return *as soon as possible*: as soon as a satisfactory
+     * word is found, the method should return a result without waiting for the
+     * processing of remaining files and/or other data.
+     *
+     * @param dir    the directory to search
+     * @param length the length the word searched for must exceed
+     * @return an optional LocatedWord about a word longer than the given length
+     */
 
     //################################ START OF SOLUTION ###############################//
 
@@ -340,42 +345,42 @@ public class Exam {
      * ordering, not necessarily wanted in a concurrent method if not required.
      */
 
-    private static Optional<LocatedWord> wordLongerThan( Path dir, int length ) {
-        Optional< LocatedWord > foundWord = null;
+    private static Optional < LocatedWord > wordLongerThan(Path dir, int length) {
+        Optional < LocatedWord > foundWord = null;
 
         // Searches for any word bigger than the given 'length' parameter, and set 
         // foundWord equal to an Optional containing the LocatedWord.
         try {
-			foundWord = Files
-				.walk( dir )
-				.filter( Files::isRegularFile )
-                .filter( txtFilePath -> txtFilePath.toString().endsWith( ".txt" ) )
-				.collect( Collectors.toList() )
+            foundWord = Files
+                .walk(dir)
+                .filter(Files::isRegularFile)
+                .filter(txtFilePath -> txtFilePath.toString().endsWith(".txt"))
+                .collect(Collectors.toList())
                 // Creates a parallel stream pipeline.
-				.parallelStream()
-                .flatMap( txtFilePath -> {
+                .parallelStream()
+                .flatMap(txtFilePath -> {
                     try {
                         return Files
-                            .lines( txtFilePath )
-                            .flatMap( Exam::extractWords )
+                            .lines(txtFilePath)
+                            .flatMap(Exam::extractWords)
                             // filter is a barrier that only allows words of the correct 
                             //  length to pass through.
-                            .filter( txtWord -> txtWord.length() > length )
+                            .filter(txtWord -> txtWord.length() > length)
                             // Mapping is done after filtering because there is no reason
                             //  to make an object of a word that is too short.
-                            .map( txtWord -> new LocatedWord( txtWord, txtFilePath ) );
+                            .map(txtWord -> new LocatedWord(txtWord, txtFilePath));
                     } catch (IOException e) {
                         return Stream.empty();
                     }
-                } )
+                })
                 // Returns any of the trivially true/emitted objects from the 
                 //  inner-stream as an Optional.
                 .findAny();
-		} catch( IOException e ) {
+        } catch (IOException e) {
             // Empty Optional is created if the try block fails.
             foundWord = Optional.empty();
-			e.printStackTrace();
-		}
+            e.printStackTrace();
+        }
 
         return foundWord;
     }
@@ -386,53 +391,53 @@ public class Exam {
 
     // ! METHOD BORROWED FROM THE LECTURES // PROVIDED BY FABRIZIO MONTESI. 
     // Extracts words from a String and returns a stream of words.
-    public static Stream< String > extractWords( String s ) {
-        List< String > words = new ArrayList<>();
-        
+    public static Stream < String > extractWords(String s) {
+        List < String > words = new ArrayList < > ();
+
         BreakIterator it = BreakIterator.getWordInstance();
-        it.setText( s );
-        
+        it.setText(s);
+
         int start = it.first();
         int end = it.next();
 
-        while( end != BreakIterator.DONE ) {
-            String word = s.substring( start, end );
-            if ( Character.isLetterOrDigit( word.charAt( 0 ) ) ) {
-                words.add( word );
+        while (end != BreakIterator.DONE) {
+            String word = s.substring(start, end);
+            if (Character.isLetterOrDigit(word.charAt(0))) {
+                words.add(word);
             }
             start = end;
             end = it.next();
         }
-        
+
         return words.stream();
     }
 
-	// Do not change this class
-	private static class LocatedWord {
-		private final String word; // the word
-		private final Path filepath; // the file where the word has been found
+    // Do not change this class
+    private static class LocatedWord {
+        private final String word; // the word
+        private final Path filepath; // the file where the word has been found
 
-		private LocatedWord(String word, Path filepath) {
-			this.word = word;
-			this.filepath = filepath;
-		}
-	}
+        private LocatedWord(String word, Path filepath) {
+            this.word = word;
+            this.filepath = filepath;
+        }
+    }
 
-	// Do not change this class
-	private static class WordLocation {
-		private final Path filepath; // the file where the word has been found
-		private final int line; // the line number at which the word has been found
+    // Do not change this class
+    private static class WordLocation {
+        private final Path filepath; // the file where the word has been found
+        private final int line; // the line number at which the word has been found
 
-		private WordLocation(Path filepath, int line) {
-			this.filepath = filepath;
-			this.line = line;
-		}
-	}
+        private WordLocation(Path filepath, int line) {
+            this.filepath = filepath;
+            this.line = line;
+        }
+    }
 
-	// Do not change this class
-	private static class InternalException extends RuntimeException {
-		private InternalException(String message) {
-			super(message);
-		}
-	}
+    // Do not change this class
+    private static class InternalException extends RuntimeException {
+        private InternalException(String message) {
+            super(message);
+        }
+    }
 }
