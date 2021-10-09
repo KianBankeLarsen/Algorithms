@@ -15,7 +15,7 @@ fib:
     decq %rdi           # Call fib n-1
     push %rdi           # Save RDI to second call
     call fib            # Make the call
-    popq %rdi            # Restore RDI to second call
+    popq %rdi           # Restore RDI to second call
     # }
     push %rax           # Save recursive base case on stack
     # Second fib call {
@@ -23,7 +23,7 @@ fib:
     call fib            # Make the call
     # }
     # Accumulate result {
-    popq %r8             # Put base case in %r8 before adding
+    popq %r8            # Put base case in %r8 before adding
     addq %r8, %rax      # Add all base cases before returning    
     # }
     jmp .return
